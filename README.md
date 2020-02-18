@@ -1,4 +1,5 @@
-# go-foxpro-dbf
+# go-foxpro-dbf - RedmonkeyDF personal fork - Used to create dbf to postgresql import file with idiosyncratic dbf files
+# Use the [original](https://github.com/SebastiaanKlippert/go-foxpro-dbf) at <https://github.com/SebastiaanKlippert/go-foxpro-dbf> instead. 
 
 [![GoDoc](https://godoc.org/github.com/golang/gddo?status.svg)](http://godoc.org/github.com/SebastiaanKlippert/go-foxpro-dbf)
 [![Build Status](https://travis-ci.org/SebastiaanKlippert/go-foxpro-dbf.svg?branch=master)](https://travis-ci.org/SebastiaanKlippert/go-foxpro-dbf)
