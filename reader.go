@@ -184,6 +184,20 @@ func (dbf *DBF) Skip(offset int64) error {
 	return nil
 }
 
+//SMM Method insertion
+
+func (dbf *DBF) SmmReadRecordRaw() ([]byte, error){
+
+	data, err := dbf.readRecord(dbf.recpointer)
+
+	if err != nil {
+
+		return nil, err
+	}
+
+	return data, nil
+}
+
 // Record reads the complete record the internal record pointer is pointing to
 func (dbf *DBF) Record() (*Record, error) {
 	data, err := dbf.readRecord(dbf.recpointer)
@@ -406,6 +420,15 @@ func (dbf *DBF) fieldDataToValue(raw []byte, fieldpos int) (interface{}, error) 
 	}
 }
 
+//SMM Method insertion
+func (dbf *DBF) SmmBytesToUTF8String(raw []byte) (string, error) {
+	utf8, err := dbf.dec.Decode(raw)
+	if err != nil {
+		return string(raw), err
+	}
+	return string(utf8), nil
+}
+
 // toUTF8String converts a byte slice to a UTF8 string using the decoder in dbf
 func (dbf *DBF) toUTF8String(raw []byte) (string, error) {
 	utf8, err := dbf.dec.Decode(raw)
@@ -413,6 +436,12 @@ func (dbf *DBF) toUTF8String(raw []byte) (string, error) {
 		return string(raw), err
 	}
 	return string(utf8), nil
+}
+
+//SMM Inserted method
+func (dbf *DBF) SmmParseMemo(raw []byte) ([]byte, bool, error) {
+
+	return dbf.parseMemo(raw)
 }
 
 func (dbf *DBF) parseMemo(raw []byte) ([]byte, bool, error) {
@@ -434,6 +463,11 @@ func (dbf *DBF) parseDate(raw []byte) (time.Time, error) {
 		return time.Time{}, nil
 	}
 	return time.Parse("20060102", string(raw))
+}
+
+func (dbf *DBF) SmmParseDateTime(raw []byte) (time.Time, error) {
+
+	return dbf.parseDateTime(raw)
 }
 
 func (dbf *DBF) parseDateTime(raw []byte) (time.Time, error) {
