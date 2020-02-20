@@ -444,6 +444,15 @@ func (dbf *DBF) SmmParseMemo(raw []byte) ([]byte, bool, error) {
 	return dbf.parseMemo(raw)
 }
 
+//SMM Inserted method
+func (dbf *DBF) SmmLoadMemoBytes(raw []byte) ([]byte, error) {
+	memo, _, err := dbf.readFPT(raw)
+	if err != nil {
+		return nil, errors.New("Smm in dbf - could not load bytes.")
+	}
+	return memo, nil
+}
+
 func (dbf *DBF) parseMemo(raw []byte) ([]byte, bool, error) {
 	memo, isText, err := dbf.readFPT(raw)
 	if err != nil {
@@ -515,6 +524,13 @@ func (dbf *DBF) readFPT(blockdata []byte) ([]byte, bool, error) {
 
 	// Determine the block number
 	block := binary.LittleEndian.Uint32(blockdata)
+
+	//SMM Addition
+	if block == 0 {
+
+		return nil, false, nil
+	}
+
 	// The position in the file is blocknumber*blocksize
 	if _, err := dbf.fptr.Seek(int64(dbf.fptheader.BlockSize)*int64(block), 0); err != nil {
 		return nil, false, err
